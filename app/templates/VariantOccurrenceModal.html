@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{items.variantId}}</h3>
+</div>
+<div class="modal-body">
+    <div class="table-responsive">
+    <table class="table no-margin no-padding table-condensed">
+        <thead>
+        <tr>
+            <th width="2.5%"><i class="fa fa-eye"></i></th>
+            <th width="10%">SampleId</th>
+            <th width="10%">Genotype</th>
+            <th width="15%">WorklistId</th>
+            <th width="15%">Assay</th>
+            <th width="25%">SeqId</th>
+            <th width="15%">PipelineName</th>
+            <th width="7.5%">PipelineVersion</th>
+        </tr>
+        </thead>
+        <tbody data-ng-repeat="occurrence in items.occurrences">
+        <tr>
+            <td width="2.5%" data-ng-click="openIGVLink(occurrence.remoteBamFilePath, items.variantId)"><i class="fa fa-eye"></i></td>
+            <td width="10%">{{occurrence.sampleId}}</td>
+            <td width="10%">{{occurrence.inheritance}}</td>
+            <td width="15%">{{occurrence.worklistId}}</td>
+            <td width="15%">{{occurrence.assay}}</td>
+            <td width="25%">{{occurrence.seqId}}</td>
+            <td width="15%">{{occurrence.pipelineName}}</td>
+            <td width="7.5%">{{occurrence.pipelineVersion}}</td>
+        </tr>
+        </tbody>
+    </table>
+        </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" type="button" data-ng-click="cancel()">Close</button>
+</div>

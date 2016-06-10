@@ -1,0 +1,76 @@
+<div class="modal-header">
+    <h3 class="modal-title"><i class="fa fa-crosshairs"></i> Target Variants</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-6">
+            <h4 tooltip-popup-delay='500' tooltip-append-to-body="true" uib-tooltip="Restrict calls to these gene sets">Add Virtual Gene Panel</h4>
+            <div class="input-group">
+                <input type="text" class="form-control no-margin" placeholder="Virtual Panel" data-ng-model="selectedVirtualPanel" typeahead-template-url="templates/VirtualPanelTypeahead.html" uib-typeahead="panel as panel.virtualPanelName for panel in virtualPanels | filter:{virtualPanelName:$viewValue} | limitTo:4">
+                <div class="input-group-btn">
+                    <button class="btn btn-primary" data-ng-click="addVirtualPanel()">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                    <button class="btn btn-warning" data-ng-click="selectedVirtualPanel = '';">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <ul class="list-group margin-top-15px">
+                <li class="list-group-item" data-ng-repeat="panel in savedVirtualPanels track by panel.panelNodeId">
+                    <table class="table borderless no-margin no-padding">
+                        <tbody>
+                        <tr>
+                            <td width="5%">
+                                <button class="btn btn-default" data-ng-click="removeVirtualPanel($index)">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                            <td width="95%">
+                                <h5>{{panel.virtualPanelName}}</h5>
+                                <h6>{{panel.fullName}} {{panel.date | date:"dd/MM/yy"}}</h6>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h4 tooltip-popup-delay='500' tooltip-append-to-body="true" uib-tooltip="Exclude calls from these data">Exclude Calls From Dataset</h4>
+            <div class="input-group">
+                <input type="text" class="form-control no-margin" placeholder="Exclude Dataset" data-ng-model="excludedDataset" typeahead-template-url="templates/ProbandTypeahead.html" uib-typeahead="analysis as analysis.sampleId for analysis in analyses | filter:{sampleId:$viewValue} | limitTo:4">
+                <div class="input-group-btn">
+                    <button class="btn btn-primary" data-ng-click="addExcludedDataset()">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                    <button class="btn btn-warning" data-ng-click="excludedDataset = '';">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <ul class="list-group margin-top-15px">
+                <li class="list-group-item" data-ng-repeat="item in savedExcludedDatasets track by item.runInfoNodeId">
+                    <table class="table borderless no-margin no-padding">
+                        <tbody>
+                        <tr>
+                            <td width="5%">
+                                <button class="btn btn-default" data-ng-click="removeExcludedDataset($index)">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                            <td width="95%">
+                                <h5>{{item.sampleId}} {{item.worklistId}} {{item.seqId}}</h5>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" type="button" data-ng-click="returnSelections()">Save</button>
+    <button class="btn btn-warning" type="button" data-ng-click="cancel()">Close</button>
+</div>

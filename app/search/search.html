@@ -1,0 +1,360 @@
+<div class="col-md-12">
+    <div class="panel panel-default margin-top-15px">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="panel-title">Search Variants</h3>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control no-margin" placeholder="Enter Variant" data-ng-model="selectedVariant">
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary no-margin" data-ng-click="getVariantInformation();">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <button class="btn btn-warning no-margin" data-ng-click="selectedVariant = ''; variantInformation = '';">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-ng-show="variantInformation" class="panel-body">
+            <div class="col-md-6">
+                <h3>Details</h3>
+                <div class="table-responsive">
+                <table id="variant-information-table" class="table borderless">
+                    <tbody>
+                    <tr><th>Variant</th><td>{{variantInformation.variantId}}</td></tr>
+                    <tr><th>Functional Annotation</th><td><i class="fa fa-info-circle" data-ng-click="openVariantAnnotationModal(variantInformation)"></i></td></tr>
+                    <tr><th>dbSNP</th><td><a data-ng-show="variantInformation.dbSnpId" href="http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs={{variantInformation.dbSnpId}}" target="_blank">{{variantInformation.dbSnpId}}</a></td></tr>
+                    <tr><th>Occurrence</th><td><i data-ng-click="openVariantOccurrenceModal(variantInformation)" class="fa fa-binoculars"></i> {{variantInformation.occurrence}}</td></tr>
+                    <tr><th>Population</th><td>
+                        <div class="btn-toolbar" role="toolbar">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-sq-xs" data-ng-click="open1kgVariantLink(variantInformation.variantId)" tooltip-enable="variantInformation.kGPhase3EASAf" tooltip-append-to-body="true" uib-tooltip="1KG East Asian {{variantInformation.kGPhase3EASAf}}%" data-ng-style="{'background-color' : (variantInformation.kGPhase3EASAf | afpct2colour)}"></button>
+                                <button type="button" class="btn btn-sq-xs" data-ng-click="open1kgVariantLink(variantInformation.variantId)" tooltip-enable="variantInformation.kGPhase3EURAf" tooltip-append-to-body="true" uib-tooltip="1KG European {{variantInformation.kGPhase3EURAf}}%" data-ng-style="{'background-color' : (variantInformation.kGPhase3EURAf | afpct2colour)}"></button>
+                                <button type="button" class="btn btn-sq-xs" data-ng-click="open1kgVariantLink(variantInformation.variantId)" tooltip-enable="variantInformation.kGPhase3AFRAf" tooltip-append-to-body="true" uib-tooltip="1KG African {{variantInformation.kGPhase3AFRAf}}%" data-ng-style="{'background-color' : (variantInformation.kGPhase3AFRAf | afpct2colour)}"></button>
+                                <button type="button" class="btn btn-sq-xs" data-ng-click="open1kgVariantLink(variantInformation.variantId)" tooltip-enable="variantInformation.kGPhase3AMRAf" tooltip-append-to-body="true" uib-tooltip="1KG Mixed American {{variantInformation.kGPhase3AMRAf}}%" data-ng-style="{'background-color' : (variantInformation.kGPhase3AMRAf | afpct2colour)}"></button>
+                                <button type="button" class="btn btn-sq-xs" data-ng-click="open1kgVariantLink(variantInformation.variantId)" tooltip-enable="variantInformation.kGPhase3SASAf" tooltip-append-to-body="true" uib-tooltip="1KG South Asian {{variantInformation.kGPhase3SASAf}}%" data-ng-style="{'background-color' : (variantInformation.kGPhase3SASAf | afpct2colour)}"></button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-sq-xs" data-ng-click="openExACVariantLink(variantInformation.variantId)" tooltip-enable="variantInformation.exacEASAf" tooltip-append-to-body="true" uib-tooltip="ExAC East Asian {{variantInformation.exacEASAf}}%" data-ng-style="{'background-color' : (variantInformation.exacEASAf | afpct2colour)}"></button>
+                                <button type="button" class="btn btn-sq-xs" data-ng-click="openExACVariantLink(variantInformation.variantId)" tooltip-enable="variantInformation.exacNFEAf" tooltip-append-to-body="true" uib-tooltip="ExAC Non-Finnish European {{variantInformation.exacNFEAf}}%" data-ng-style="{'background-color' : (variantInformation.exacNFEAf | afpct2colour)}"></button>
+                                <button type="button" class="btn btn-sq-xs" data-ng-click="openExACVariantLink(variantInformation.variantId)" tooltip-enable="variantInformation.exacAFRAf" tooltip-append-to-body="true" uib-tooltip="ExAC African {{variantInformation.exacAFRAf}}%" data-ng-style="{'background-color' : (variantInformation.exacAFRAf | afpct2colour)}"></button>
+                                <button type="button" class="btn btn-sq-xs" data-ng-click="openExACVariantLink(variantInformation.variantId)" tooltip-enable="variantInformation.exacAMRAf" tooltip-append-to-body="true" uib-tooltip="ExAC Latino {{variantInformation.exacAMRAf}}%" data-ng-style="{'background-color' : (variantInformation.exacAMRAf | afpct2colour)}"></button>
+                                <button type="button" class="btn btn-sq-xs" data-ng-click="openExACVariantLink(variantInformation.variantId)" tooltip-enable="variantInformation.exacSASAf" tooltip-append-to-body="true" uib-tooltip="ExAC South Asian {{variantInformation.exacSASAf}}%" data-ng-style="{'background-color' : (variantInformation.exacSASAf | afpct2colour)}"></button>
+                                <button type="button" class="btn btn-sq-xs" data-ng-click="openExACVariantLink(variantInformation.variantId)" tooltip-enable="variantInformation.exacFINAf" tooltip-append-to-body="true" uib-tooltip="ExAC Finnish {{variantInformation.exacFINAf}}%" data-ng-style="{'background-color' : (variantInformation.exacFINAf | afpct2colour)}"></button>
+                                <button type="button" class="btn btn-sq-xs" data-ng-click="openExACVariantLink(variantInformation.variantId)" tooltip-enable="variantInformation.exacOTHAf" tooltip-append-to-body="true" uib-tooltip="ExAC Other {{variantInformation.exacOTHAf}}%" data-ng-style="{'background-color' : (variantInformation.exacOTHAf | afpct2colour)}"></button>
+                            </div>
+                        </div>
+                    </td></tr>
+                    <tr><th>Conservation</th><td>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sq-xs" tooltip-enable="variantInformation.gerp" tooltip-append-to-body="true" uib-tooltip="GERP {{variantInformation.gerp}}" data-ng-style="{'background-color' : (variantInformation.gerp | gerp2colour)}"></button>
+                            <button type="button" class="btn btn-sq-xs" tooltip-enable="variantInformation.phyloP" tooltip-append-to-body="true" uib-tooltip="phyloP {{variantInformation.phyloP}}" data-ng-style="{'background-color' : (variantInformation.phyloP | phylop2colour)}"></button>
+                            <button type="button" class="btn btn-sq-xs" tooltip-enable="variantInformation.phastCons" tooltip-append-to-body="true" uib-tooltip="phastCons {{variantInformation.phastCons}}" data-ng-style="{'background-color' : (variantInformation.phastCons | phastcons2colour)}"></button>
+                        </div>
+                    </td></tr>
+                    <tr><th>Links</th>
+                        <td>
+                            <div class="dropdown">
+                                <i class="fa fa-external-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header">Browsers</li>
+                                    <li><a data-ng-click="openEnsemblVariantLink(variantInformation.variantId)">Ensembl</a></li>
+                                    <li><a data-ng-click="openUCSCVariantLink(variantInformation.variantId)">UCSC</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                    </div>
+                <form role="form">
+                    <div class="form-group">
+                        <h3>Pathogenicity</h3>
+                        <select class="form-control" data-ng-model="selectedPathogenicity">
+                            <option value="1">Benign Variant</option>
+                            <option value="2">Likely Benign Variant</option>
+                            <option value="3">Unclassified Variant</option>
+                            <option value="4">Likely Pathogenic Variant</option>
+                            <option value="5">Pathogenic Variant</option>
+                        </select>
+                    </div>
+                </form>
+                <div class="form-group">
+                    <textarea class="form-control" placeholder="Give evidence" rows="3" data-ng-model="pathogenicityEvidenceText"></textarea>
+                </div>
+                <button type="button" class="btn btn-success" data-ng-click="addVariantPathogenicity()">
+                    <i class="fa fa-pencil"></i> Update
+                </button>
+            </div>
+            <div class="col-md-6">
+                <h3>History <span class="badge">{{variantInformation.history.length}}</span></h3>
+                <ul class="list-group">
+                    <li class="list-group-item" data-ng-repeat="item in variantInformation.history | orderBy:'$index':true">
+                        <p><b>{{item.event}} {{item.value}}</b></p>
+                        <p data-ng-show="item.evidence != null">{{item.evidence}}</p>
+                        <p>{{item.status}}</p>
+                        <p>Added by {{item.add.fullName}} {{item.add.date | date:"dd/MM/yy"}}</p>
+                        <p data-ng-show="item.auth">Authorised by {{item.auth.fullName}} {{item.auth.date | date:"dd/MM/yy"}}</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="panel-title">Search Transcripts</h3>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control no-margin" placeholder="Enter Transcript" data-ng-model="selectedFeature">
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary no-margin" data-ng-click="getFeature();">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <button class="btn btn-warning no-margin" data-ng-click="selectedFeature = ''; featureInformation = '';">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-ng-show="featureInformation" class="panel-body">
+            <div class="col-md-6">
+                <h3>Details <i data-ng-show="featureInformation.preferred" class="fa fa-star"></i></h3>
+                <div class="table-responsive">
+                <table id="feature-table" class="table borderless">
+                    <tbody>
+                    <tr><th>Transcript</th><td><a id="feature-link" href="http://grch37.ensembl.org/Homo_sapiens/Location/View?t={{featureInformation.featureId}}" target="_blank">{{featureInformation.featureId}}</a></td></tr>
+                    <tr><th>Strand</th><td>{{featureInformation.strand}}</td></tr>
+                    <tr><th>CCDS</th><td><a id="ccds-link" href="http://www.ncbi.nlm.nih.gov/CCDS/CcdsBrowse.cgi?REQUEST=CCDS&DATA={{featureInformation.ccdsId}}" target="_blank">{{featureInformation.ccdsId}}</a></td></tr>
+                    <tr><th>Type</th><td>{{featureInformation.featureType}}</td></tr>
+                    <tr><th>Exons</th><td>{{featureInformation.totalExons}}</td></tr>
+                    <tr><th>Preference</th><td>{{featureInformation.preference}}</td></tr>
+                    </tbody>
+                </table>
+                </div>
+                <form role="form">
+                    <div class="form-group">
+                        <h3>Preferred Transcript</h3>
+                        <select class="form-control" data-ng-model="selectedTranscriptPreference">
+                            <option value="true">True</option>
+                            <option value="false">False</option>
+                        </select>
+                    </div>
+                </form>
+                <div class="form-group">
+                    <textarea class="form-control" placeholder="Give evidence" rows="3" data-ng-model="preferedTrancriptEvidenceText"></textarea>
+                </div>
+                <button type="button" class="btn btn-success" data-ng-click="addFeaturePreference()">
+                    <i class="fa fa-pencil"></i> Update
+                </button>
+            </div>
+            <div class="col-md-6">
+                <h3>History <span class="badge">{{featureInformation.history.length}}</span></h3>
+                <ul class="list-group">
+                    <li class="list-group-item" data-ng-repeat="item in featureInformation.history | orderBy:'$index':true">
+                        <p><b>{{item.event}} {{item.value}}</b></p>
+                        <p data-ng-show="item.evidence != null">{{item.evidence}}</p>
+                        <p>{{item.status}}</p>
+                        <p>Added by {{item.add.fullName}} {{item.add.date | date:"dd/MM/yy"}}</p>
+                        <p data-ng-show="item.auth">Authorised by {{item.auth.fullName}} {{item.auth.date | date:"dd/MM/yy"}}</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="panel-title">Search Panels</h3>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control no-margin" placeholder="Enter Panel" data-ng-model="selectedVirtualPanel" typeahead-template-url="templates/VirtualPanelTypeahead.html" uib-typeahead="virtualPanel as virtualPanel.virtualPanelName for virtualPanel in virtualPanels | filter:$viewValue | limitTo:5">
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary no-margin" data-ng-click="getVirtualPanel();">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <button class="btn btn-warning no-margin" data-ng-click="selectedVirtualPanel = ''; virtualPanel = ''; search = '';">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-ng-show="virtualPanel" class="panel-body">
+            <div class="col-md-6">
+                <h3>Details</h3>
+                <div class="table-responsive">
+                <table id="gene-table" class="table borderless">
+                    <tbody>
+                    <tr><th>Panel Name</th><td>{{virtualPanel.virtualPanelName}}</td></tr>
+                    <tr><th>Created</th><td>{{virtualPanel.fullName}} {{virtualPanel.date | date:"dd/MM/yy"}}</td></tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h3>Content</h3>
+                <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th colspan="2" width="100%">
+                            <input type="text" class="form-control no-margin" placeholder="Search" data-ng-model="search">
+                        </th>
+                    </tr>
+                    <tr>
+                        <th width="75%" data-ng-click="sortType = 'SymbolId'; sortReverse = !sortReverse">
+                            Symbol <i data-ng-class="sortReverse ? 'fa fa-sort-alpha-desc' : 'fa fa-sort-alpha-asc'" data-ng-show="sortType == 'symbolId'"></i>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody data-ng-repeat="symbol in virtualPanel.symbols | orderBy:sortType:sortReverse | filter:search">
+                    <tr>
+                        <td width="75%"><a id="symbol-link" href="http://omim.org/search?search={{symbol.symbolId}}" target="_blank">{{symbol.symbolId}}</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="panel-title">Search Samples</h3>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control no-margin" placeholder="Enter Sample" data-ng-model="selectedSample">
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary no-margin" data-ng-click="getSample();">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <button class="btn btn-warning no-margin" data-ng-click="selectedSample = ''; sampleInformation = '';">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-ng-show="sampleInformation" class="panel-body">
+            <h3>Details</h3>
+            <table id="sample-information-table" class="table borderless">
+                <tbody>
+                <tr><th>SampleId</th><td>{{sampleInformation.sampleId}}</td></tr>
+                <tr><th>Tissue</th><td>{{sampleInformation.tissue}}</td></tr>
+                </tbody>
+            </table>
+            <h3>Analyses</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>Worklist</th>
+                        <th>SeqId</th>
+                        <th>Assay</th>
+                        <th>PipelineName</th>
+                        <th>PipelineVersion</th>
+                    </tr>
+                    <tbody data-ng-repeat="analysis in sampleInformation.analyses">
+                    <tr>
+                        <td>{{analysis.worklistId}}</td>
+                        <td>{{analysis.seqId}}</td>
+                        <td>{{analysis.assay}}</td>
+                        <td>{{analysis.pipelineName}}</td>
+                        <td>{{analysis.pipelineVersion}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="panel-title">Search Genes</h3>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control no-margin" placeholder="Enter Gene" data-ng-model="selectedSymbol">
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary no-margin" data-ng-click="getSymbol();">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <button class="btn btn-warning no-margin" data-ng-click="selectedSymbol = ''; symbolInformation = '';">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-ng-show="symbolInformation" class="panel-body">
+            <div class="col-md-6">
+                <h3>Disorders</h3>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead><tr><th>OMIM disorder</th></tr></thead>
+                        <tbody data-ng-repeat="disorder in symbolInformation.disorders">
+                        <tr><td>{{disorder.disorder}}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h3>Transcripts</h3>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Transcript</th>
+                            <th>Strand</th>
+                            <th>CCDS</th>
+                            <th>Type</th>
+                            <th>Exons</th>
+                            <th>Canonical</th>
+                            <th>Preference</th>
+                        </tr>
+                        </thead>
+                        <tbody data-ng-repeat="feature in symbolInformation.features">
+                        <tr>
+                            <td>{{feature.featureId}}</td>
+                            <td>{{feature.strand}}</td>
+                            <td>{{feature.ccdsId}}</td>
+                            <td>{{feature.featureType}}</td>
+                            <td>{{feature.totalExons}}</td>
+                            <td>{{feature.canonical |yesNoFilter}}</td>
+                            <td>{{feature.preference |yesNoFilter}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <p></p>
+</div>

@@ -1,0 +1,171 @@
+/*Padding and margins*/
+.no-margin {
+    margin : 0 !important;
+}
+.no-padding {
+    padding : 0 !important;
+}
+.margin-top-15px {
+    margin-top : 15px !important;
+}
+.margin-bottom-15px {
+    margin-bottom : 15px !important;
+}
+.margin-left-10px {
+    margin-left : 10px !important;
+}
+.jumbotron {
+    height : 300px;
+    margin-bottom : 15px;
+    padding-top : 25px;
+}
+.drop-down-position{
+    position: absolute;
+}
+.panel-height{
+    height: 300px;
+}
+.overflow-scroll{
+    overflow: scroll;
+}
+#welcome-msg{
+    margin-left : 15px;
+}
+.btn-sq-xs {
+    width: 8px !important;
+    height: 8px !important;
+    padding : 2px !important;
+    margin : 1px !important;
+}
+#variant-table {
+    margin-bottom : 0 !important;
+}
+#export-button {
+    margin-bottom : 15px !important;
+}
+#horizontal-line {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.overflow{
+    overflow: scroll;
+}
+#variant-table {
+    table-layout: fixed;
+}
+td, .modal-title{
+    word-wrap:break-word
+}
+/*list group*/
+.s-scroll {
+    max-height : 250px;
+    overflow-y : scroll;
+}
+.list-group-item {
+    word-wrap : break-word;
+}
+.panel-title {
+    margin : 10px;
+}
+
+/* Specify styling for tooltip contents */
+.tooltip.customClass .tooltip-inner {
+    color: #880000;
+    background-color: #ffff66;
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+.tooltip.customClass .tooltip-arrow {
+    display : none;
+}
+
+/*Disable blue highlight on select*/
+.no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/*modal*/
+.app-modal-window .modal-dialog {
+    width: 95%;
+}
+
+/*user account page*/
+#user-account-image {
+    color : lightgrey;
+    font-size: 350px;
+}
+
+/*Styling for external links*/
+#occurrence-filter, #internal-frequency-filter, #dbSNP-link, #ccds-link, #symbol-link,
+#feature-link, #gene-id-link, #occurrence-link, #annotation-link, #email-link, #neo4j-link {
+    color : black;
+}
+
+/*Grid styles*/
+.borderless tbody tr td, .borderless tbody tr th, .borderless thead tr th {
+    border: none;
+}
+#user-account-table > tbody > tr > td, #user-account-table > tbody > tr > th,
+#feature-table > tbody > tr > td, #feature-table > tbody > tr > th,
+#about-table > tbody > tr > td, #about-table > tbody > tr > th,
+#gene-table > tbody > tr > td, #gene-table > tbody > tr > th,
+#sample-information-table > tbody > tr > td, #sample-information-table > tbody > tr > th,
+#variant-information-table > tbody > tr > td, #variant-information-table > tbody > tr > th {
+    font-size: 14px;
+    padding-left : 0;
+    vertical-align: middle;
+}
+
+/*text box styles*/
+textarea {
+    resize:none;
+}
+
+.selected {
+    background-color: #f5f5f5;
+}
+
+/*Sigin in page*/
+.form-signin {
+    max-width: 330px;
+    padding-top: 15px;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+.form-signin .checkbox {
+    font-weight: normal;
+}
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+#input-password{
+    margin-top : 10px;
+}

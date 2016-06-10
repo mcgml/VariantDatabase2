@@ -1,0 +1,60 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{items.variantId}}</h3>
+</div>
+<div class="modal-body">
+    <div class="table-responsive">
+    <table class="table table-condensed no-margin no-padding">
+        <thead>
+        <tr>
+            <th width="2.5%"><i class="fa fa-external-link"></i></th>
+            <th width="10%">Gene</th>
+            <th width="15%">Transcript</th>
+            <th width="7.5%">CCDS</th>
+            <th width="15%">Consequence</th>
+            <th width="10%">HGVSc</th>
+            <th width="10%">HGVSp</th>
+            <th width="5%">Codons</th>
+            <th width="5%">Location</th>
+            <th width="10%">SIFT</th>
+            <th width="10%">PolyPhen</th>
+        </tr>
+        </thead>
+        <tbody data-ng-repeat="annotation in items.annotation" data-ng-click="setSelected(annotation.annotationNodeId)" data-ng-class="{selected : annotation.annotationNodeId === idSelected}">
+        <tr>
+            <td width="2.5%">
+                <div class="dropdown drop-down-position">
+                    <i class="fa fa-external-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
+                        <li class="dropdown-header">Web Search</li>
+                        <li><a data-ng-click="openGoogleScholarLink(annotation)">Scholar</a></li>
+                        <li><a data-ng-click="openClinVarLink(annotation)">ClinVar</a></li>
+                        <li><a href="http://www.hgvs.org/locus-specific-mutation-databases/?field_hgnc_gene_symbol_title={{annotation.symbolId}}" target="_blank">LSDB</a></li>
+                        <li class="dropdown-header">Tissue Expression Search</li>
+                        <li data-ng-class="{disabled: !annotation.symbolId}"><a data-ng-click="!annotation.symbolId || openEAtlasLink(annotation.symbolId)">Ensembl Expression Atlas</a></li>
+                        <li data-ng-class="{disabled: !annotation.symbolId}"><a data-ng-click="!annotation.symbolId || openHPALink(annotation.symbolId)">Human Protein Atlas</a></li>
+                        <li class="dropdown-header">Protein Domain Search</li>
+                        <li data-ng-class="{disabled: !annotation.pfamDomain}"><a data-ng-click="!annotation.pfamDomain || openPfamLink(annotation.pfamDomain)">Pfam</a></li>
+                        <li data-ng-class="{disabled: !annotation.hmmPanther}"><a data-ng-click="!annotation.hmmPanther || openPantherLink(annotation.hmmPanther)">PANTHER</a></li>
+                        <li data-ng-class="{disabled: !annotation.prosite}"><a data-ng-click="!annotation.prosite || openPrositeLink(annotation.prosite)">PROSITE</a></li>
+                        <li data-ng-class="{disabled: !annotation.superfamilyDomains}"><a data-ng-click="!annotation.superfamilyDomains || openSuperfamilyLink(annotation.superfamilyDomains)">Superfamily</a></li>
+                    </ul>
+                </div>
+            </td>
+            <td width="10%"><a id="symbol-link" href="http://omim.org/search?search={{annotation.symbolId}}" target="_blank">{{annotation.symbolId}}</a></td>
+            <td width="15%"><a id="feature-link" href="http://grch37.ensembl.org/Homo_sapiens/Location/View?t={{annotation.featureId}}" target="_blank">{{annotation.featureId}}</a> <i data-ng-show="annotation.preference" class="fa fa-star" style="color:goldenrod"></i></td>
+            <td width="7.5%"><a id="ccds-link" href="http://www.ncbi.nlm.nih.gov/CCDS/CcdsBrowse.cgi?REQUEST=CCDS&DATA={{annotation.ccdsId}}" target="_blank">{{annotation.ccdsId}}</a></td>
+            <td width="15%">{{annotation.consequence}}</td>
+            <td width="10%">{{annotation.hgvsc}}</td>
+            <td width="10%">{{annotation.hgvsp}}</td>
+            <td width="5%">{{annotation.codons}}</td>
+            <td width="5%">{{annotation.location}}</td>
+            <td width="10%">{{annotation.sift | uppercase}}</td>
+            <td width="10%">{{annotation.polyphen | uppercase}}</td>
+        </tr>
+        </tbody>
+    </table>
+        </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" type="button" data-ng-click="cancel()">Close</button>
+</div>

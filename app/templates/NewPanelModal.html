@@ -1,0 +1,76 @@
+<div class="modal-header">
+    <h3 class="modal-title">Create new virtual panel</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" data-ng-model="search">
+                <div class="input-group-btn">
+                    <button class="btn btn-primary" data-ng-click="checkHGNC();">
+                        <i class="fa fa-search"></i>
+                    </button>
+                    <button class="btn btn-warning" data-ng-click="searchedGenes = ''; search = '';">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h3>HGNC</h3>
+            <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th width="2.5%"><i class="fa fa-plus"></i></th>
+                    <th width="20%">Gene</th>
+                    <th width="40%">Name</th>
+                    <th width="17.5%">Location</th>
+                    <th width="20%">Status</th>
+                </tr>
+                </thead>
+                <tbody data-ng-repeat="gene in searchedGenes">
+                <tr>
+                    <td width="2.5%" data-ng-click="addGene(gene)"><i class="fa fa-plus"></i></td>
+                    <td width="20%">{{gene.symbol}}</td>
+                    <td width="40%">{{gene.name}}</td>
+                    <td width="17.5%">{{gene.location}}</td>
+                    <td width="20%">{{gene.status}}</td>
+                </tr>
+                </tbody>
+            </table>
+                </div>
+        </div>
+        <div class="col-md-6">
+            <h3>{{items}}</h3>
+            <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th width="2.5%"><i class="fa fa-minus"></i></th>
+                    <th width="20%">Gene</th>
+                    <th width="40%">Name</th>
+                    <th width="17.5%">Location</th>
+                    <th width="20%">Status</th>
+                </tr>
+                </thead>
+                <tbody data-ng-repeat="gene in savedGenes">
+                <tr>
+                    <td width="2.5%" data-ng-click="removeGene($index)"><i class="fa fa-minus"></i></td>
+                    <td width="20%">{{gene.symbol}}</td>
+                    <td width="40%">{{gene.name}}</td>
+                    <td width="17.5%">{{gene.location}}</td>
+                    <td width="20%">{{gene.status}}</td>
+                </tr>
+                </tbody>
+            </table>
+                </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" type="button" data-ng-click="saveGenes()">Save</button>
+    <button class="btn btn-warning" type="button" data-ng-click="cancel()">Close</button>
+</div>
