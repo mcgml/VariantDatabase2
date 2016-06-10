@@ -49,7 +49,7 @@ var auth = function(req, res, next){
 };
 
 var comparePassword = function(candidatePassword, user, cb) {
-    bcrypt.compare(candidatePassword, user.password, function(err, isMatch) {
+    bcrypt.compare(candidatePassword, user.properties.password, function(err, isMatch) {
         if (err) return cb(err);
         cb(null, isMatch);
     });
@@ -60,7 +60,7 @@ var getUserInformation = function(username, cb){
     request.post(
         {
             uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/user/info",
-            json: { userId : username.username }
+            json: { email : username.username }
         },
         function(error, result)
         {
