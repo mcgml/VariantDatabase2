@@ -7,12 +7,12 @@ angular.module('variantdatabase.login', ['ngResource', 'ngRoute', 'ui-notificati
         // Register the login() function
         $scope.login = function(){
             $http.post('/login', {
-                    username: $scope.username.toLowerCase(),
+                    username: $scope.email,
                     password: $scope.password
                 })
                 .success(function(user){
                     $rootScope.user = user;
-                    Notification('Welcome ' + $rootScope.user.fullName);
+                    Notification('Welcome ' + $rootScope.user.properties.fullName);
                     $location.url('/report');
                 })
                 .error(function(){

@@ -17,11 +17,11 @@ var bcrypt = require('bcrypt-nodejs');
 
 // Define the strategy to be used by PassportJS
 passport.use(new LocalStrategy (
-    function(username, password, done) {
+    function(email, password, done) {
         request.post(
             {
                 uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/user/info",
-                json: { email : username }
+                json: { email : email }
             },
             function(err, result) {
                 if (err) return done(err);
