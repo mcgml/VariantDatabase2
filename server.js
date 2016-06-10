@@ -1,8 +1,8 @@
 'use strict';
 
-// set up ========================
 var express  = require('express');
 var app = express(); // create our app w/ express
+
 var request = require('request');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -15,21 +15,39 @@ var favicon = require('serve-favicon');
 var path = require('path');
 var bcrypt = require('bcrypt-nodejs');
 
-//==================================================================
 // Define the strategy to be used by PassportJS
-passport.use(new LocalStrategy(function(username, password, done) {
-    getUserInformation({ username: username }, function(err, user) {
-        if (err) return done(err);
-        if (!user) return done(null, false, { message: 'Incorrect username.' });
-        comparePassword(password, user, function(err, isMatch) {
-            if (isMatch) {
-                return done(null, user);
-            } else {
-                return done(null, false, { message: 'Incorrect password.' });
+passport.use(new LocalStrategy (
+    function(username, password, done) {
+        request.post(
+            {
+                uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/user/info",
+                json: { email : username }
+            },
+            function(err, result) {
+                if (err) return done(err);
+
+                //could not find user
+                if (!result.body) {
+                    return done(null, false, { message: 'Incorrect username.' });
+                }
+
+                //compare password
+                bcrypt.compare(password, result.body.properties.password, function(err, isMatch) {
+                    if (err) return done(err);
+
+                    //incorrect password
+                    if (!isMatch) {
+                        return done(null, false, { message: 'Incorrect password.' });
+                    }
+
+                    //credentials correct
+                    return done(null, result.body);
+                });
+
             }
-        });
-    });
-}));
+        );
+    }
+));
 
 // Serialized and deserialized methods when got from session
 passport.serializeUser(function(user, done) {
@@ -42,40 +60,16 @@ passport.deserializeUser(function(user, done) {
 
 // Define a middleware function to be used for every secured routes
 var auth = function(req, res, next){
-    if (!req.isAuthenticated())
+    if (!req.isAuthenticated()){
         res.sendStatus(401);
-    else
+    } else {
         next();
+    }
 };
 
-var comparePassword = function(candidatePassword, user, cb) {
-    bcrypt.compare(candidatePassword, user.properties.password, function(err, isMatch) {
-        if (err) return cb(err);
-        cb(null, isMatch);
-    });
-    return cb;
-};
-
-var getUserInformation = function(username, cb){
-    request.post(
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/user/info",
-            json: { email : username.username }
-        },
-        function(error, result)
-        {
-            if (error) return cb(error);
-            cb(null, result.body);
-        }
-    );
-};
-
-//==================================================================
-
-// configuration ================
+// configuration
 app.use(express.static(path.join(__dirname, 'app'))); // set the static files location /app
 app.use('/node_modules',  express.static(path.join(__dirname, 'node_modules'))); //redirect requests to node_modules folder
-app.use('/vendor',  express.static(path.join(__dirname, 'vendor'))); //redirect requests to vendor folder
 app.use('/images',  express.static(path.join(__dirname, 'app', 'images'))); //redirect requests to images folder
 app.use('/fonts',  express.static(path.join(__dirname, 'app', 'fonts'))); //redirect requests to fonts folder
 app.use(favicon(path.join(__dirname,'app','images', 'favicon-stethoscope.ico'))); //provide favicon path
@@ -89,424 +83,10 @@ app.use(session({ secret: 'secret', cookie: { maxAge: 3600000 }, resave: true, s
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
-// routes ======================================================================
-// api ---------------------------------------------------------------------
-app.post('/api/variantdatabase/diagnostic/return', function(req, res) {
-    request.post(
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/diagnostic/return",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.get('/api/variantdatabase/workflows/list', auth, function(req, res) {
-    request.get (
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/workflows/list",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.get('/api/variantdatabase/analyses/pendingqc', auth, function(req, res) {
-    request.get (
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/analyses/pendingqc",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.get('/api/variantdatabase/analyses/list', auth, function(req, res) {
-    request.get (
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/analyses/list",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.get('/api/variantdatabase/panels/list', auth, function(req, res) {
-    request.get (
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/panels/list",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.post('/api/variantdatabase/panels/info', auth, function(req, res) {
-    request.post(
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/panels/info",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.post('/api/variantdatabase/analyses/addqc', auth, function(req, res) {
-    request.post(
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/analyses/addqc",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.post('/api/variantdatabase/panels/add', auth, function(req, res) {
-    request.post(
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/panels/add",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.post('/api/variantdatabase/variant/info', auth, function(req, res) {
-    request.post(
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/variant/info",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.post('/api/variantdatabase/variant/counts', auth, function(req, res) {
-    request.post(
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/variant/counts",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.post('/api/variantdatabase/variant/addpathogenicity', auth, function(req, res) {
-    request.post(
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/variant/addpathogenicity",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.post('/api/variantdatabase/variant/filter', auth, function(req, res) {
-    request.post(
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/variant/filter",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.get('/api/variantdatabase/variant/pendingauth', auth, function(req, res) {
-    request.get (
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/variant/pendingauth",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.get('/api/variantdatabase/analyses/pendingauth', auth, function(req, res) {
-    request.get (
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/analyses/pendingauth",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.post('/api/variantdatabase/feature/info', auth, function(req, res) {
-    request.post(
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/feature/info",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.post('/api/variantdatabase/symbol/info', auth, function(req, res) {
-    request.post(
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/symbol/info",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.post('/api/variantdatabase/sample/info', auth, function(req, res) {
-    request.post(
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/sample/info",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.post('/api/variantdatabase/feature/addpreference', auth, function(req, res) {
-    request.post(
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/feature/addpreference",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.get('/api/variantdatabase/feature/pendingauth', auth, function(req, res) {
-    request.get (
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/feature/pendingauth",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.post('/api/variantdatabase/annotation/info', auth, function(req, res) {
-    request.post(
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/annotation/info",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.post('/api/variantdatabase/user/info', auth, function(req, res) {
-    request.post(
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/user/info",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.post('/api/variantdatabase/user/updatepassword', auth, function(req, res) {
-    bcrypt.hash(req.body.password, null, null, function(error, hash) {
+// routes
+require('./routes/sample')(app, auth);
+require('./routes/dataset')(app, auth);
 
-        if (error) throw err;
-
-        request.post(
-            {
-                uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/user/updatepassword",
-                json: { userNodeId : req.body.userNodeId, password : hash }
-            },
-            function(error, result)
-            {
-                if (error) throw err;
-                if (result.statusCode != 200) {
-                    res.status(result.statusCode).send(result.body);
-                } else {
-                    res.send(result.body);
-                }
-            }
-        );
-
-    });
-});
-app.post('/api/variantdatabase/admin/authevent', auth, function(req, res) {
-    request.post(
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/admin/authevent",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-app.post('/api/variantdatabase/report', auth, function(req, res) {
-    request.post(
-        {
-            uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/report",
-            json: req.body
-        },
-        function(error, result)
-        {
-            if (error) throw err;
-            if (result.statusCode != 200) {
-                res.status(result.statusCode).send(result.body);
-            } else {
-                res.send(result.body);
-            }
-        }
-    )
-});
-
-//==================================================================
 // route to test if the user is logged in or not
 app.get('/loggedin', function(req, res) {
     res.send(req.isAuthenticated() ? req.user : '0');

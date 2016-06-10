@@ -13,10 +13,8 @@ bcrypt.hash(password, null, null, function(error, hash) {
             uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/user/add",
             json: {
                 fullName : "Matthew Lyon",
-                jobTitle : "Bioinformatician",
-                userId : "demo@wales.nhs.uk",
+                email : "matt.lyon@wales.nhs.uk",
                 password : hash,
-                contactNumber : "00000000000",
                 admin : false
             }
         },
