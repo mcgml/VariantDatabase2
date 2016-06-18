@@ -113,11 +113,10 @@ angular.module('variantdatabase.report', ['ngRoute', 'ngSanitize', 'ngAnimate', 
             }
         };
 
-        function getAnalyses() {
-            $http.get('/api/variantdatabase/analyses/list', {
-
-            }).then(function(response) {
-                $scope.analyses = response.data;
+        function getDatasets() {
+            $http.get('/api/variantdatabase/dataset/info', {})
+                .then(function(response) {
+                $scope.datasets = response.data;
             }, function(response) {
                 Notification.error(response);
                 console.log("ERROR: " + response);
@@ -125,9 +124,8 @@ angular.module('variantdatabase.report', ['ngRoute', 'ngSanitize', 'ngAnimate', 
         }
 
         function getWorkflows() {
-            $http.get('/api/variantdatabase/workflows/list', {
-
-            }).then(function (response) {
+            $http.get('/api/variantdatabase/workflow/info', {})
+                .then(function (response) {
                 $scope.workflows = response.data;
             }, function (response) {
                 Notification.error(response);
@@ -293,7 +291,7 @@ angular.module('variantdatabase.report', ['ngRoute', 'ngSanitize', 'ngAnimate', 
         };
 
         //populate typeaheads on pageload
-        getAnalyses();
+        getDatasets();
         getWorkflows();
 
     }]);

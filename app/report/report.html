@@ -1,3 +1,5 @@
+<h1>{{datasets|json}}</h1>
+<h1>{{workflows|json}}</h1>
 <div class="jumbotron">
     <div id="welcome-msg" data-ng-hide="filteredVariants">
         <h1>Variant Database</h1>
@@ -7,7 +9,7 @@
 </div>
 <div class="col-md-4 margin-bottom-15px">
     <div class="input-group">
-        <input type="text" class="form-control" placeholder="Index Dataset" data-ng-model="selectedAnalysis" typeahead-template-url="templates/ProbandTypeahead.html" uib-typeahead="analysis as analysis.sampleId for analysis in analyses | filter:{sampleId:$viewValue} | limitTo:4">
+        <input type="text" class="form-control" placeholder="Index Dataset" data-ng-model="selectedAnalysis" typeahead-template-url="templates/ProbandTypeahead.html" uib-typeahead="dataset as dataset.properties.sampleId for dataset in datasets | filter:{sampleId:$viewValue} | limitTo:4">
         <div class="input-group-btn">
             <button id="exclusionButton" class="btn btn-primary" data-ng-click="openVariantSelectionModal()">
                 <i class="fa fa-filter"></i>

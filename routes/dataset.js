@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(app, auth){
+module.exports = function(app, auth, request){
     app.get('/api/variantdatabase/dataset/info', auth, function(req, res) {
         request.get (
             {

@@ -15,7 +15,7 @@ bcrypt.hash(password, null, null, function(error, hash) {
                 fullName : "Matthew Lyon",
                 email : "matt.lyon@wales.nhs.uk",
                 password : hash,
-                admin : false
+                admin : true
             }
         },
         function(error, result)

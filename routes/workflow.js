@@ -1,10 +1,10 @@
 'use strict';
 
 module.exports = function(app, auth, request){
-    app.post('/api/variantdatabase/sample/info', auth, function(req, res) {
-        request.post(
+    app.get('/api/variantdatabase/workflow/info', auth, function(req, res) {
+        request.get (
             {
-                uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/sample/info",
+                uri:"http://127.0.0.1:7474/awmgs/plugins/variantdatabase/workflow/info",
                 json: req.body
             },
             function(error, result)

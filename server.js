@@ -84,8 +84,9 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
 // routes
-require('./routes/sample')(app, auth);
-require('./routes/dataset')(app, auth);
+require('./routes/sample')(app, auth, request);
+require('./routes/dataset')(app, auth, request);
+require('./routes/workflow')(app, auth, request);
 
 // route to test if the user is logged in or not
 app.get('/loggedin', function(req, res) {
