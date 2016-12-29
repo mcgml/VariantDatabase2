@@ -1,0 +1,55 @@
+<div class="col-md-12">
+    <div class="jumbotron">
+        <wizard on-finish="finishedWizard()">
+            <wz-step wz-title="Dataset">
+                <h2>Select dataset</h2>
+                <input type="text" class="form-control" placeholder="Index Dataset" data-ng-model="selectedAnalysis" typeahead-template-url="templates/ProbandTypeahead.html" uib-typeahead="dataset as dataset.properties.sampleId for dataset in datasets | filter:{sampleId:$viewValue} | limitTo:4">
+                <button class="btn btn-circle btn-primary left" wz-previous>
+                    <i class="fa fa-arrow-left"></i>
+                </button>
+                <button class="btn btn-circle btn-primary right" wz-next>
+                    <i class="fa fa-arrow-right"></i>
+                </button>
+            </wz-step>
+            <wz-step wz-title="Panel">
+                <h2>Select panel</h2>
+                <input type="text" class="form-control no-margin" placeholder="Panel" data-ng-model="selectedVirtualPanel" typeahead-template-url="templates/VirtualPanelTypeahead.html" uib-typeahead="panel as panel.properties.panelId for panel in virtualPanels | filter:{panelId:$viewValue} | limitTo:4">
+                <button class="btn btn-circle btn-primary" wz-previous>
+                    <i class="fa fa-arrow-left"></i>
+                </button>
+                <button class="btn btn-circle btn-primary" wz-next>
+                    <i class="fa fa-arrow-right"></i>
+                </button>
+            </wz-step>
+            <wz-step wz-title="Exclude">
+                <h1>Exclude calls</h1>
+                <button class="btn btn-circle btn-primary" wz-previous>
+                    <i class="fa fa-arrow-left"></i>
+                </button>
+                <button class="btn btn-circle btn-primary" wz-next>
+                    <i class="fa fa-arrow-right"></i>
+                </button>
+            </wz-step>
+            <wz-step wz-title="Workflow">
+                <h1>Select workflow</h1>
+                <select class="form-control" data-ng-model="selectedWorkflow" ng-options="workflow as workflow.name for workflow in workflows">
+                    <option value="">Stratification Workflow</option>
+                </select>
+                <button class="btn btn-circle btn-primary" wz-previous>
+                    <i class="fa fa-arrow-left"></i>
+                </button>
+                <button class="btn btn-circle btn-primary" wz-next>
+                    <i class="fa fa-arrow-right"></i>
+                </button>
+            </wz-step>
+            <wz-step wz-title="Results">
+                <button class="btn btn-circle btn-primary" wz-previous>
+                    <i class="fa fa-arrow-left"></i>
+                </button>
+                <button class="btn btn-circle btn-primary" wz-next>
+                    <i class="fa fa-arrow-right"></i>
+                </button>
+            </wz-step>
+        </wizard>
+    </div>
+</div>

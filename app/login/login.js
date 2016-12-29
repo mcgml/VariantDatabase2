@@ -13,7 +13,7 @@ angular.module('variantdatabase.login', ['ngResource', 'ngRoute', 'ui-notificati
                 .success(function(user){
                     $rootScope.user = user;
                     Notification('Welcome ' + $rootScope.user.properties.fullName);
-                    $location.url('/report');
+                    $location.url('/dashboard');
                 })
                 .error(function(){
                     Notification.error('Username or password incorrect');

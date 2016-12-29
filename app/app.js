@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('variantdatabase', [ 'ngResource', 'ngRoute', 'ngAnimate', 'ui.router', 'variantdatabase.login', 'variantdatabase.report', 'variantdatabase.search', 'variantdatabase.account', 'variantdatabase.admin', 'variantdatabase.about', 'variantdatabase.qc'])
+angular.module('variantdatabase', [ 'ngResource', 'ngRoute', 'ngAnimate', 'variantdatabase.login', 'variantdatabase.report', 'variantdatabase.search', 'variantdatabase.account', 'variantdatabase.admin', 'variantdatabase.about', 'variantdatabase.qc', 'variantdatabase.dashboard', 'variantdatabase.test'])
 
     .config(function(NotificationProvider) {
         NotificationProvider.setOptions(
@@ -71,6 +71,10 @@ angular.module('variantdatabase', [ 'ngResource', 'ngRoute', 'ngAnimate', 'ui.ro
                 templateUrl: 'about/about.html',
                 controller: 'AboutCtrl'
             })
+            .when('/test', {
+                templateUrl: 'test/test.html',
+                controller: 'TestCtrl'
+            })
             .when('/account', {
                 templateUrl: 'account/account.html',
                 controller: 'AccountCtrl',
@@ -106,6 +110,13 @@ angular.module('variantdatabase', [ 'ngResource', 'ngRoute', 'ngAnimate', 'ui.ro
             .when('/qualitycontrol', {
                 templateUrl: 'qualitycontrol/qualitycontrol.html',
                 controller: 'QcCtrl',
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            })
+            .when('/dashboard', {
+                templateUrl: 'dashboard/dashboard.html',
+                controller: 'DashboardCtrl',
                 resolve: {
                     loggedin: checkLoggedin
                 }
